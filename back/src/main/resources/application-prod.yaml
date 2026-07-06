@@ -1,4 +1,6 @@
 spring:
+  application:
+    name: back
   datasource:
     url: ${DB_URL}
     username: ${DB_USERNAME}
@@ -17,6 +19,9 @@ spring:
       port: ${REDIS_PORT:6379}
       password: ${REDIS_PASSWORD}
 
+springdoc:
+  default-produces-media-type: application/json;charset=UTF-8
+
 custom:
   jwt:
     accessToken:
@@ -25,5 +30,20 @@ custom:
     refreshToken:
       secret: ${JWT_REFRESH_SECRET}
       expirationSeconds: 604800
+    blacklist:
+      grace-seconds: 60
   cors:
     allowed-origins: ${CORS_ALLOWED_ORIGINS}
+  redis:
+    refresh-token:
+      prefix: "auth:refresh:"
+      index-prefix: "auth:refresh:index:"
+
+app:
+  rate-limit:
+    seat-status:
+      capacity: 5
+      refill-tokens: 5
+      refill-seconds: 1
+      expire-after-access-minutes: 10
+      maximum-size: 10000
